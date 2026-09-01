@@ -1,3 +1,5 @@
+using APICatalogo.Context;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+var mySqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySQL(mySqlConnectionString));
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
