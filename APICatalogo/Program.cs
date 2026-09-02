@@ -1,6 +1,7 @@
 using APICatalogo.Context;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,10 @@ var mySqlConnectionString = builder.Configuration.GetConnectionString("DefaultCo
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(mySqlConnectionString));
+
+builder.Services.AddControllers().
+    AddJsonOptions(options => options.JsonSerializerOptions
+        .ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
